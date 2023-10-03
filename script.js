@@ -59,3 +59,23 @@ class Deck {
 }
 const gameDeck = new Deck();
 console.log(gameDeck);
+
+class Player {
+  constructor(name) {
+    this.name = name;
+    this.cards = [];
+  }
+
+  //taking a array of cards as params and adding the card prop to players object using spread to add it to array
+  addCards(cards) {
+    this.cards.push(...cards);
+  }
+  //gonna use this to remove players first card and then return it
+  playCard() {
+    return this.cards.shift();
+  }
+  // and gonna use this to check how much cards a player has, well use this boolean later on to check for game over
+  hasCards() {
+    return this.cards.length > 0;
+  }
+}
