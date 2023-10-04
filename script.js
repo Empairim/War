@@ -6,6 +6,7 @@ console.log("COMMENCING WAR");
 //4️⃣whoever card has higher value(COMPARED ==) takes both cards and (push) them to bottom of their stack(array/object?)[-1] LAST INDEX PUSH?
 //5️⃣if its a TIE then its WAR, each player must add 3 cards from their stack(array/object?) face down and reveal the 4th card placed, whoever has the higher value on 4th card takes all the cards and add it to their stack, repeat(LOOP) this process until the game is done
 
+//Card class to give the properties to define the cards
 class Card {
   constructor(suit, rank, score) {
     this.suit = suit;
@@ -14,6 +15,7 @@ class Card {
   }
 }
 
+//deck class making empty array to hold the deck and run the createDeck method by defualt
 class Deck {
   constructor() {
     this.cards = [];
@@ -47,7 +49,7 @@ class Deck {
 
     this.shuffle();
   }
-
+  //this method is to randomize the cards in deck
   shuffle() {
     const cards = this.cards;
 
@@ -57,9 +59,12 @@ class Deck {
     }
   }
 }
-const gameDeck = new Deck();
-console.log(gameDeck);
 
+//initilizing new Deck to use
+const gameDeck = new Deck();
+//check to see if its working should be Rahul made it lol
+console.log(gameDeck);
+//making player
 class Player {
   constructor(name) {
     this.name = name;
@@ -79,7 +84,7 @@ class Player {
     return this.cards.length > 0;
   }
 }
-
+//initilizing new players using our player class
 const player1 = new Player("Bobby");
 const player2 = new Player("Alice");
 
@@ -109,7 +114,7 @@ class Game {
       const card2 = this.player2.playCard();
       console.log(`${this.player2.name} plays ${card2.rank} of ${card2.suit}`);
 
-      // Compare the cards
+      // Gonna compare the cards <---- remember to define the funhction below
       if (compareCards(card1, card2) === 1) {
         console.log(`${this.player1.name} wins the round`);
         this.goal1();
@@ -130,7 +135,7 @@ class Game {
   }
 
   dealCards() {
-    // Deal the cards alternately to the players
+    // Deal the cards back and forth to our players
     for (let i = 0; i < this.deck.cards.length; i++) {
       if (i % 2 === 0) {
         this.player1.addCards([this.deck.cards[i]]);
@@ -141,7 +146,7 @@ class Game {
   }
 }
 function compareCards(card1, card2) {
-  // Compare the ranks of the cards
+  // Compare the ranks(value) of the cards to determine whos winning
   if (card1.rank > card2.rank) {
     return 1;
   } else if (card1.rank < card2.rank) {
@@ -150,7 +155,7 @@ function compareCards(card1, card2) {
     return 0;
   }
 }
-
+//wellness check to make sure the goals are actaully being accomplished
 function goal1() {
   console.log("Goal 1 achieved");
 }
@@ -158,6 +163,6 @@ function goal1() {
 function goal2() {
   console.log("Goal 2 achieved");
 }
-
+//initializing the actual game here
 const game = new Game("Alice", "Bob", goal1, goal2);
 game.play();
