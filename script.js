@@ -79,3 +79,85 @@ class Player {
     return this.cards.length > 0;
   }
 }
+
+const player1 = new Player("Bobby");
+const player2 = new Player("Alice");
+
+class Game {
+  constructor(player1Name, player2Name, goal1, goal2) {
+    this.deck = new Deck();
+    this.player1 = new Player(player1Name);
+    this.player2 = new Player(player2Name);
+    this.goal1 = goal1;
+    this.goal2 = goal2;
+  }
+
+  play() {
+    // Shuffle the deck
+    this.deck.shuffle();
+
+    // Deal the cards to the players
+    this.dealCards();
+
+    // Play the game until one player runs out of cards
+    while (this.player1.hasCards() && this.player2.hasCards()) {
+      // Player 1 plays a card
+      const card1 = this.player1.playCard();
+      console.log(`${this.player1.name} plays ${card1.rank} of ${card1.suit}`);
+
+      // Player 2 plays a card
+      const card2 = this.player2.playCard();
+      console.log(`${this.player2.name} plays ${card2.rank} of ${card2.suit}`);
+
+      // Compare the cards
+      if (compareCards(card1, card2) === 1) {
+        console.log(`${this.player1.name} wins the round`);
+        this.goal1();
+      } else if (compareCards(card1, card2) === -1) {
+        console.log(`${this.player2.name} wins the round`);
+        this.goal2();
+      } else {
+        console.log("It's a tie");
+      }
+    }
+
+    // Determine the winner of the game
+    if (this.player1.hasCards()) {
+      console.log(`${this.player1.name} wins the game!`);
+    } else {
+      console.log(`${this.player2.name} wins the game!`);
+    }
+  }
+
+  dealCards() {
+    // Deal the cards alternately to the players
+    for (let i = 0; i < this.deck.cards.length; i++) {
+      if (i % 2 === 0) {
+        this.player1.addCards([this.deck.cards[i]]);
+      } else {
+        this.player2.addCards([this.deck.cards[i]]);
+      }
+    }
+  }
+}
+function compareCards(card1, card2) {
+  // Compare the ranks of the cards
+  if (card1.rank > card2.rank) {
+    return 1;
+  } else if (card1.rank < card2.rank) {
+    return -1;
+  } else {
+    return 0;
+  }
+}
+
+function goal1() {
+  console.log("Goal 1 achieved");
+}
+
+function goal2() {
+  console.log("Goal 2 achieved");
+}
+
+const game = new Game("Alice", "Bob", goal1, goal2);
+game.play();
